@@ -4,6 +4,8 @@ A single-page trip planner for a 5-day Western Ghats road trip in July — Pune 
 
 No build step, no dependencies. Open `index.html` in a browser or deploy the folder as-is.
 
+**🌐 Live site:** [https://chaitanya07422.github.io/Maharastra_trip/](https://chaitanya07422.github.io/Maharastra_trip/)
+
 ## Trip at a glance
 
 | | |
