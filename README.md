@@ -11,7 +11,7 @@ No build step, no dependencies. Open `index.html` in a browser or deploy the fol
 | | |
 |---|---|
 | **Duration** | 5 days · 4 nights |
-| **Travellers** | 6 people · 1 car |
+| **Travellers** | 7 people · 1 car |
 | **Distance** | ~570 km |
 | **Season** | Monsoon (July) |
 
