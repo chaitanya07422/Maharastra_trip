@@ -33,6 +33,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
 .overview h2{font-size:13px;font-weight:700;color:#1b3a20;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
 .route-flow{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:12px;}
 .route-stop{background:#e8f5e8;color:#1b3a20;padding:4px 10px;border-radius:20px;font-weight:600;}
+.route-stop.opt{background:#fff8e8;border:1px dashed #c0901a;color:#5a4a1a;}
 .route-arrow{color:#5a7a5a;font-size:11px;}
 .budget-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
 .budget-pill{background:#fff8e8;border:1px solid #e8d898;border-radius:8px;padding:8px 12px;flex:1;min-width:140px;}
@@ -57,6 +58,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
 /* ── WARN BOX ── */
 .warn-box{background:#fff3ec;border:1px solid #f0b898;border-top:none;padding:10px 18px;font-size:12px;color:#7a3a1a;display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
 .warn-box .wi{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ── ALT PLAN BOX ── */
+.alt-box{background:#eef4ff;border:1px solid #b8cce8;border-radius:0 0 12px 12px;padding:16px 18px;margin-bottom:16px;}
+.alt-box .alt-tag{display:inline-block;background:#2060a0;color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.alt-box h3{font-size:15px;font-weight:700;color:#1a3a6a;margin-bottom:6px;}
+.alt-box .alt-desc{font-size:12px;color:#3a4a6a;line-height:1.55;margin-bottom:12px;}
+.alt-box .alt-facts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.alt-fact{background:#fff;border:1px solid #c8d8f0;border-radius:8px;padding:6px 10px;font-size:11px;color:#2a4a7a;}
+.alt-fact strong{color:#1a3a6a;}
+.sched.alt-sched{border-radius:0;border-top:1px solid #b8cce8;}
 
 /* ── SCHEDULE TABLE ── */
 .sched{background:#fff;border:1px solid #d4e8d4;border-top:none;width:100%;border-collapse:collapse;}
@@ -158,6 +169,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <span class="route-stop">Matheran</span><span class="route-arrow">→</span>
       <span class="route-stop">Lohagad</span><span class="route-arrow">→</span>
       <span class="route-stop">Devkund</span><span class="route-arrow">→</span>
+      <span class="route-stop opt">Kalu ★</span><span class="route-arrow">→</span>
       <span class="route-stop">Tamhini Ghat</span><span class="route-arrow">→</span>
       <span class="route-stop">Mahabaleshwar</span><span class="route-arrow">→</span>
       <span class="route-stop">Panchgani</span><span class="route-arrow">→</span>
@@ -169,6 +181,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <div class="budget-pill"><div class="bl">Night 4 Stay</div><div class="bv">₹2,500–3,000/night</div></div>
       <div class="budget-pill"><div class="bl">Night 5 Stay</div><div class="bv">₹3,000–4,500/night</div></div>
     </div>
+    <p style="font-size:11.5px;color:#5a7a5a;margin-top:10px;line-height:1.5;"><span style="color:#c0901a;font-weight:700;">★ Kalu Waterfall</span> — optional Day 3 swap instead of Devkund + Tamhini. Tallest fall in Malshej Ghat (1,200 ft). See Day 3 tab for Plan B.</p>
   </div>
 
   <table class="sched" style="border-radius:12px;border:1px solid #d4e8d4;overflow:hidden;">
@@ -188,7 +201,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <tr>
       <td class="t-time">Day 3</td>
       <td class="t-place">Lohagad + Tamhini</td>
-      <td class="t-note">Fort trek, Devkund Waterfall, Ghat drive</td>
+      <td class="t-note">Fort trek, Devkund Waterfall, Ghat drive · <span style="color:#2060a0;">or Kalu ★</span></td>
       <td class="t-note">JV Cottages, Mulshi</td>
     </tr>
     <tr>
@@ -206,7 +219,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
   </table>
 
   <br>
-  <a class="btn btn-green" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Devkund+Waterfall/Tamhini+Ghat/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Open Full Route in Google Maps →</a>
+  <div class="btn-row">
+    <a class="btn btn-green" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Devkund+Waterfall/Tamhini+Ghat/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Plan A — Full Route</a>
+    <a class="btn btn-blue" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Kalu+Waterfall+Sawarne+Malshej+Ghat/Mulshi/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Plan B — with Kalu Waterfall</a>
+  </div>
 </div>
 
 <!-- ═══════════════ DAY 1 ═══════════════ -->
@@ -327,6 +343,32 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <div class="btn-row">
       <a class="btn btn-green" href="https://www.jvcottages.com" target="_blank">jvcottages.com</a>
       <a class="btn btn-clay" href="https://www.airbnb.co.in" target="_blank">Search Airbnb</a>
+    </div>
+  </div>
+
+  <div class="alt-box">
+    <span class="alt-tag">Optional Plan B</span>
+    <h3>🌊 Kalu Waterfall — God's Valley, Malshej Ghat</h3>
+    <p class="alt-desc">Maharashtra's tallest waterfall in the Malshej region — a <strong>1,200 ft (365 m), 5-tier cascade</strong> on the Kalu River from the Harishchandragad range. Best in monsoon (July). <strong>Replaces Devkund + Tamhini</strong> — not both. Major detour northeast (~130 km from Lohagad, ~3.5 hr drive). Only pick this if the group skips Lohagad fort and leaves very early.</p>
+    <div class="alt-facts">
+      <span class="alt-fact"><strong>Base village</strong> Sawarne</span>
+      <span class="alt-fact"><strong>Trek</strong> 2 km one-way · moderate</span>
+      <span class="alt-fact"><strong>Time needed</strong> 3–4 hrs on trail</span>
+      <span class="alt-fact"><strong>Also called</strong> God's Valley</span>
+      <span class="alt-fact"><strong>Top view alt.</strong> Khireshwar</span>
+    </div>
+    <table class="sched alt-sched">
+      <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+      <tr><td class="t-time">5:00am</td><td class="t-place">Checkout — The Chavni</td><td class="t-note">Skip Lohagad fort · breakfast packed or on road</td></tr>
+      <tr><td class="t-time">8:30am</td><td class="t-place">Sawarne village — park car</td><td class="t-note">Via NH60 · Alephata · Junnar · Malshej Ghat</td></tr>
+      <tr><td class="t-time">9:00am</td><td class="t-place">Kalu Waterfall trek</td><td class="t-note">Jungle trail · stream crossings · hire local guide</td></tr>
+      <tr><td class="t-time">1:30pm</td><td class="t-place">Back to Sawarne</td><td class="t-note">Lunch in Junnar or packed · don't swim at base</td></tr>
+      <tr class="t-key"><td class="t-time t-warn">2:00pm</td><td class="t-place t-warn">Drive toward Mulshi</td><td class="t-warn">~4–5 hr via Pune — tight for ghat roads before dark</td></tr>
+      <tr><td class="t-time">6:30pm</td><td class="t-place">Check in — JV Cottages, Mulshi</td><td class="t-warn">Latest safe arrival — leave Sawarne by 2pm sharp</td></tr>
+    </table>
+    <div class="btn-row" style="margin-top:12px;">
+      <a class="btn btn-blue" href="https://www.google.com/maps/dir/Lohagad+Fort/Sawarne+Maharashtra/JV+Cottages+Mulshi" target="_blank">🗺 Kalu detour route in Maps</a>
+      <a class="btn btn-green" href="https://www.google.com/maps/search/Sawarne+village+Kalu+waterfall+Malshej+Ghat" target="_blank">📍 Sawarne on Maps</a>
     </div>
   </div>
 </div>
@@ -462,7 +504,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <h4>Daypack (10–15L) — carry on treks</h4>
       <ul>
         <li><span class="must">Must have rain cover</span> — monsoon downpours soak packs fast</li>
-        <li>One per person for Matheran, Lohagad & Devkund walks</li>
+        <li>One per person for Matheran, Lohagad, Devkund & Kalu treks</li>
         <li>Pack only: water, snacks, rain gear, phone, small first-aid</li>
         <li>Dry bag or ziplock inside for phone & wallet</li>
       </ul>
@@ -537,6 +579,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
         <li>No night driving on ghat roads — especially Tamhini</li>
         <li>Lohagad Vinchu Kata ridge only if rock is fully dry</li>
         <li>Devkund requires a local guide — don't enter jungle alone</li>
+        <li>Kalu Waterfall (Plan B): skip if Orange/Red alert · no swimming at base</li>
         <li>Bhushi Dam steps are very slippery — stay off edges</li>
         <li>Don't swim in monsoon waterfalls — currents are deadly</li>
         <li>Tell someone your ETA before each trek starts</li>
@@ -563,6 +606,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
         <li>Strawberry cream at Lodwick Point — worth the stop</li>
         <li>Mulberry wine at Mahabaleshwar Bazaar</li>
         <li>Devkund guide fee: ₹300–500 per group — hire at base village</li>
+        <li>Kalu Waterfall: base at Sawarne · local guide recommended · July peak flow</li>
         <li>Carry change for parking at Lonavala & Mahabaleshwar viewpoints</li>
       </ul>
     </div>
