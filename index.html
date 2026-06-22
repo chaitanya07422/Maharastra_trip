@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maharashtra Monsoon Trip</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;font-size:14px;}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#1b3a20 0%,#2d6a35 60%,#3d8a45 100%);color:#fff;padding:28px 20px 22px;text-align:center;}
+.hdr h1{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px;}
+.hdr p{font-size:12px;color:#b8d9bb;margin-bottom:18px;}
+.stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;}
+.stat{padding:10px 18px;text-align:center;border-right:1px solid rgba(255,255,255,0.15);}
+.stat:last-child{border-right:none;}
+.stat .n{font-size:22px;font-weight:700;color:#7edd88;line-height:1;}
+.stat .l{font-size:10px;color:#b8d9bb;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* ── NAV TABS ── */
+.tabs{display:flex;overflow-x:auto;background:#fff;border-bottom:2px solid #e0e8e0;gap:0;position:sticky;top:0;z-index:20;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex-shrink:0;padding:10px 14px;font-size:12px;font-weight:600;color:#5a7a5a;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;}
+.tab:hover{color:#2d6a35;background:#f5fbf5;}
+.tab.active{color:#1b3a20;border-bottom-color:#2d6a35;}
+
+/* ── MAIN ── */
+.wrap{max-width:860px;margin:0 auto;padding:16px 12px 60px;}
+
+/* ── OVERVIEW STRIP ── */
+.overview{background:#fff;border-radius:12px;padding:16px 18px;margin-bottom:16px;border:1px solid #d4e8d4;}
+.overview h2{font-size:13px;font-weight:700;color:#1b3a20;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
+.route-flow{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:12px;}
+.route-stop{background:#e8f5e8;color:#1b3a20;padding:4px 10px;border-radius:20px;font-weight:600;}
+.route-arrow{color:#5a7a5a;font-size:11px;}
+.budget-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.budget-pill{background:#fff8e8;border:1px solid #e8d898;border-radius:8px;padding:8px 12px;flex:1;min-width:140px;}
+.budget-pill .bl{font-size:10px;color:#8a7a3a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.budget-pill .bv{font-size:14px;font-weight:700;color:#5a4a1a;}
+
+/* ── DAY PANEL ── */
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+
+/* ── DAY HEADER ── */
+.day-hdr{background:#fff;border-radius:12px 12px 0 0;border:1px solid #d4e8d4;border-bottom:none;padding:14px 18px;display:flex;align-items:center;gap:12px;}
+.day-num{width:36px;height:36px;background:#2d6a35;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
+.day-info h2{font-size:17px;font-weight:700;color:#1b3a20;}
+.day-info .sub{font-size:11px;color:#5a7a5a;margin-top:1px;}
+.day-tag{margin-left:auto;background:#e8f5e8;color:#1b3a20;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+
+/* ── FLOW BOX ── */
+.flow-box{background:#f0f8f0;border:1px solid #c8e0c8;border-top:none;padding:12px 18px;font-size:12.5px;color:#2a4a2a;line-height:1.6;}
+.flow-box strong{color:#1b3a20;}
+
+/* ── WARN BOX ── */
+.warn-box{background:#fff3ec;border:1px solid #f0b898;border-top:none;padding:10px 18px;font-size:12px;color:#7a3a1a;display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.warn-box .wi{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ── SCHEDULE TABLE ── */
+.sched{background:#fff;border:1px solid #d4e8d4;border-top:none;width:100%;border-collapse:collapse;}
+.sched th{background:#f5fbf5;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#5a7a5a;padding:8px 12px;text-align:left;border-bottom:1px solid #d4e8d4;}
+.sched td{padding:10px 12px;border-bottom:1px solid #eaf2ea;vertical-align:top;font-size:13px;}
+.sched tr:last-child td{border-bottom:none;}
+.sched tr:hover td{background:#f8fcf8;}
+.t-time{color:#2060a0;font-weight:700;font-size:12px;white-space:nowrap;width:70px;}
+.t-place{font-weight:600;color:#1b3a20;}
+.t-note{color:#5a6a5a;font-size:12px;}
+.t-warn{color:#c05020;font-weight:600;}
+.t-key{background:#fff3ec;color:#c05020;font-weight:700;}
+
+/* ── STAY CARD ── */
+.stay-wrap{border:1px solid #d4e8d4;border-top:3px solid #2d6a35;border-radius:0 0 12px 12px;background:#fff;padding:16px 18px;margin-bottom:16px;}
+.stay-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#2d6a35;font-weight:700;margin-bottom:6px;}
+.stay-name{font-size:16px;font-weight:700;color:#1b3a20;margin-bottom:10px;}
+.stay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.stay-item{background:#f5fbf5;border-radius:8px;padding:8px 10px;}
+.stay-item .si-l{font-size:10px;color:#5a7a5a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.stay-item .si-v{font-size:12.5px;font-weight:600;color:#1b3a20;}
+.stay-item.warn-item{background:#fff3ec;}
+.stay-item.warn-item .si-l{color:#9a5030;}
+.stay-item.warn-item .si-v{color:#7a3a1a;}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;}
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;text-align:center;}
+.btn-green{background:#2d6a35;color:#fff;}
+.btn-clay{background:#c05020;color:#fff;}
+.btn-blue{background:#2060a0;color:#fff;}
+
+/* ── BOOKINGS TABLE ── */
+.book-section{background:#1b3a20;border-radius:12px;padding:20px;margin-top:4px;}
+.book-section h2{color:#fff;font-size:16px;font-weight:700;margin-bottom:14px;}
+.book-table{width:100%;border-collapse:collapse;}
+.book-table th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#88b888;padding:6px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1);}
+.book-table td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.07);font-size:12.5px;color:#d8ead8;vertical-align:top;}
+.book-table tr:last-child td{border-bottom:none;}
+.book-table a{color:#88d888;text-decoration:underline;}
+.pri{display:inline-block;padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;text-transform:uppercase;}
+.pri-now{background:#c05020;color:#fff;}
+.pri-week{background:#c0901a;color:#fff;}
+.pri-soon{background:#2d6a35;color:#fff;}
+
+/* ── PACKING / TIPS ── */
+.tips-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+.tip-card{background:#fff;border:1px solid #d4e8d4;border-radius:10px;padding:14px;}
+.tip-card h3{font-size:12px;font-weight:700;color:#1b3a20;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.tip-card ul{padding-left:16px;}
+.tip-card li{font-size:12.5px;color:#3a5a3a;margin-bottom:4px;line-height:1.4;}
+
+@media(max-width:500px){
+  .stay-grid{grid-template-columns:1fr;}
+  .tips-grid{grid-template-columns:1fr;}
+  .stat{padding:8px 12px;}
+  .hdr h1{font-size:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🌧 Maharashtra Monsoon Trip</h1>
+  <p>Western Ghats · July · 6 Travellers · One Car</p>
+  <div class="stats">
+    <div class="stat"><div class="n">5</div><div class="l">Days</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Nights</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Stays</div></div>
+    <div class="stat"><div class="n">~570</div><div class="l">km</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">People</div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="show('overview',this)">Overview</div>
+  <div class="tab" onclick="show('day1',this)">Day 1 · Lonavala</div>
+  <div class="tab" onclick="show('day2',this)">Day 2 · Matheran</div>
+  <div class="tab" onclick="show('day3',this)">Day 3 · Lohagad</div>
+  <div class="tab" onclick="show('day4',this)">Day 4 · Mahabaleshwar</div>
+  <div class="tab" onclick="show('day5',this)">Day 5 · Panchgani</div>
+  <div class="tab" onclick="show('bookings',this)">All Bookings</div>
+  <div class="tab" onclick="show('tips',this)">Packing & Tips</div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════ OVERVIEW ═══════════════ -->
+<div id="overview" class="day-panel active">
+  <div class="overview">
+    <h2>Full Route</h2>
+    <div class="route-flow">
+      <span class="route-stop">Pune</span><span class="route-arrow">→</span>
+      <span class="route-stop">Lonavala</span><span class="route-arrow">→</span>
+      <span class="route-stop">Matheran</span><span class="route-arrow">→</span>
+      <span class="route-stop">Lohagad</span><span class="route-arrow">→</span>
+      <span class="route-stop">Devkund</span><span class="route-arrow">→</span>
+      <span class="route-stop">Tamhini Ghat</span><span class="route-arrow">→</span>
+      <span class="route-stop">Mahabaleshwar</span><span class="route-arrow">→</span>
+      <span class="route-stop">Panchgani</span><span class="route-arrow">→</span>
+      <span class="route-stop">Pune</span>
+    </div>
+    <div class="budget-row" style="margin-top:14px;">
+      <div class="budget-pill"><div class="bl">Night 1 & 2 Stay</div><div class="bv">₹4,500–6,000/night</div></div>
+      <div class="budget-pill"><div class="bl">Night 3 Stay</div><div class="bv">₹5,000–8,000/night</div></div>
+      <div class="budget-pill"><div class="bl">Night 4 Stay</div><div class="bv">₹2,500–3,000/night</div></div>
+      <div class="budget-pill"><div class="bl">Night 5 Stay</div><div class="bv">₹3,000–4,500/night</div></div>
+    </div>
+  </div>
+
+  <table class="sched" style="border-radius:12px;border:1px solid #d4e8d4;overflow:hidden;">
+    <tr><th>Day</th><th>Where</th><th>Highlight</th><th>Stay</th></tr>
+    <tr>
+      <td class="t-time">Day 1</td>
+      <td class="t-place">Lonavala</td>
+      <td class="t-note">Bhushi Dam, Kune Falls, Lion's Point</td>
+      <td class="t-note">3-BHK Villa (2 nights)</td>
+    </tr>
+    <tr>
+      <td class="t-time">Day 2</td>
+      <td class="t-place">Matheran</td>
+      <td class="t-note">Panorama Point, Charlotte Lake</td>
+      <td class="t-note">The Chavni, Lohagad base</td>
+    </tr>
+    <tr>
+      <td class="t-time">Day 3</td>
+      <td class="t-place">Lohagad + Tamhini</td>
+      <td class="t-note">Fort trek, Devkund Waterfall, Ghat drive</td>
+      <td class="t-note">JV Cottages, Mulshi</td>
+    </tr>
+    <tr>
+      <td class="t-time">Day 4</td>
+      <td class="t-place">Mahabaleshwar</td>
+      <td class="t-note">Arthur's Seat, Lingmala Falls, Mapro</td>
+      <td class="t-note">MTDC Resort</td>
+    </tr>
+    <tr>
+      <td class="t-time">Day 5</td>
+      <td class="t-place">Panchgani → Pune</td>
+      <td class="t-note">Table Land, Sydney Point — then home</td>
+      <td class="t-note">Return to Pune by 6pm</td>
+    </tr>
+  </table>
+
+  <br>
+  <a class="btn btn-green" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Devkund+Waterfall/Tamhini+Ghat/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Open Full Route in Google Maps →</a>
+</div>
+
+<!-- ═══════════════ DAY 1 ═══════════════ -->
+<div id="day1" class="day-panel">
+  <div class="day-hdr">
+    <div class="day-num">1</div>
+    <div class="day-info">
+      <h2>Lonavala</h2>
+      <div class="sub">Pune Station → Lonavala · 65 km · Car pickup same morning</div>
+    </div>
+    <div class="day-tag">Arrival Day</div>
+  </div>
+  <div class="flow-box">
+    <strong>Plan:</strong> Pick up car at Pune Station at 6am → drive to villa, drop all bags → use villa as base all day → return after each spot → sleep here 2 nights.
+  </div>
+  <table class="sched">
+    <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+    <tr><td class="t-time">6:00am</td><td class="t-place">Pune Station — pick up car</td><td class="t-note">SK Self Drive · +91 91752 10163 · open 6am</td></tr>
+    <tr><td class="t-time">8:30am</td><td class="t-place">Villa — drop all bags</td><td class="t-note">Base for tonight & tomorrow night</td></tr>
+    <tr><td class="t-time">9:30am</td><td class="t-place">Lonavala Lake Waterfall</td><td class="t-note">40ft cliff fall — stay back from edge</td></tr>
+    <tr><td class="t-time">10:30am</td><td class="t-place">Lion's Point</td><td class="t-note">Valley + Tiger Falls view from above</td></tr>
+    <tr><td class="t-time">12:00pm</td><td class="t-place">Kune Falls</td><td class="t-note">200m, 3-tiered — tallest nearby</td></tr>
+    <tr><td class="t-time">2:00pm</td><td class="t-place">Bhushi Dam</td><td class="t-note">Walk through cascade — steps very slippery</td></tr>
+    <tr><td class="t-time">4:00pm</td><td class="t-place">Lonavala Market</td><td class="t-note">Chikki — buy from factory outlet, not roadside stalls</td></tr>
+    <tr><td class="t-time">Evening</td><td class="t-place">Back to villa</td><td class="t-note">Dinner in, early sleep</td></tr>
+  </table>
+  <div class="stay-wrap">
+    <div class="stay-lbl">🛏 Stay — Night 1 & 2</div>
+    <div class="stay-name">3-BHK Private Villa, near Lonavala Station</div>
+    <div class="stay-grid">
+      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Every Day 1 spot within 5 km — perfect base</div></div>
+      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹4,500 – ₹6,000</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">Early check-in (8:30am), kitchen, car parking</div></div>
+      <div class="stay-item"><div class="si-l">Nights here</div><div class="si-v">Night 1 + Night 2 (no relocation)</div></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-green" href="https://www.airbnb.co.in" target="_blank">Search Airbnb</a>
+      <a class="btn btn-clay" href="https://www.stayvista.com" target="_blank">Search StayVista</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DAY 2 ═══════════════ -->
+<div id="day2" class="day-panel">
+  <div class="day-hdr">
+    <div class="day-num">2</div>
+    <div class="day-info">
+      <h2>Matheran</h2>
+      <div class="sub">Lonavala → Matheran (60 km) → Lohagad base (50 km)</div>
+    </div>
+    <div class="day-tag">Day Trip + Relocate</div>
+  </div>
+  <div class="flow-box">
+    <strong>Plan:</strong> Leave villa with daypacks only (Matheran is walk-only after the car park). After sightseeing, swing back to collect main luggage — then drive straight to Lohagad base. <strong>Do NOT return to Lonavala villa tonight.</strong>
+  </div>
+  <table class="sched">
+    <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+    <tr><td class="t-time">8:00am</td><td class="t-place">Leave villa — daypacks only</td><td class="t-note">Main bags stay at villa for now</td></tr>
+    <tr><td class="t-time">10:00am</td><td class="t-place">Dasturi Naka — park here</td><td class="t-note">No vehicles allowed past this point</td></tr>
+    <tr><td class="t-time">10:45am</td><td class="t-place">Panorama Point</td><td class="t-note">30–40 min walk · best 360° view on the hill</td></tr>
+    <tr><td class="t-time">12:00pm</td><td class="t-place">Louisa Point</td><td class="t-note">Waterfall visible from here in July</td></tr>
+    <tr><td class="t-time">12:45pm</td><td class="t-place">Charlotte Lake</td><td class="t-note">Forested, quiet — path is slick when wet</td></tr>
+    <tr><td class="t-time">2:15pm</td><td class="t-place">Matheran Bazaar</td><td class="t-note">Lunch + leather goods, chikki</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">4:00pm</td><td class="t-place t-warn">Collect bags — Lonavala villa</td><td class="t-warn">Quick stop, load car, don't stay</td></tr>
+    <tr><td class="t-time">6:00pm</td><td class="t-place">Check in — The Chavni</td><td class="t-note">Confirm 6am breakfast, sleep early</td></tr>
+  </table>
+  <div class="stay-wrap">
+    <div class="stay-lbl">🛏 Stay — Night 3</div>
+    <div class="stay-name">The Chavni — at the base of Lohagad Fort</div>
+    <div class="stay-grid">
+      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Trek starts 7am — 10 min walk to trailhead vs 45 min drive</div></div>
+      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹5,000 – ₹8,000</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">6am breakfast + hold luggage during morning trek</div></div>
+      <div class="stay-item warn-item"><div class="si-l">⚠ Book soon</div><div class="si-v">Call directly — not always on OTAs</div></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-green" href="tel:+917721059999">📞 Call +91 77210 59999</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DAY 3 ═══════════════ -->
+<div id="day3" class="day-panel">
+  <div class="day-hdr">
+    <div class="day-num">3</div>
+    <div class="day-info">
+      <h2>Lohagad Fort + Tamhini Ghat</h2>
+      <div class="sub">Lohagad → Devkund (50 km) → Tamhini → Mulshi</div>
+    </div>
+    <div class="day-tag">Longest Day</div>
+  </div>
+  <div class="flow-box">
+    <strong>Plan:</strong> Walk to fort with just water & rain gear — bags stay locked at The Chavni. Return, collect bags, then drive: Devkund → Tamhini Ghat → check in at Mulshi before dark.
+  </div>
+  <div class="warn-box">
+    <span class="wi">⚠️</span>
+    <span><strong>Before leaving:</strong> Check IMD Maharashtra weather app. If Red or Orange alert → skip fort summit, go straight to Devkund.</span>
+  </div>
+  <table class="sched">
+    <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+    <tr><td class="t-time">6:30am</td><td class="t-place">Walk to Lohagad Fort</td><td class="t-note">10 min from homestay · bags stay behind</td></tr>
+    <tr><td class="t-time">7:00am</td><td class="t-place">Lohagad Fort Trek</td><td class="t-warn">Vinchu Kata ridge only if rock is fully dry</td></tr>
+    <tr><td class="t-time">9:45am</td><td class="t-place">Back to homestay</td><td class="t-note">Breakfast, collect bags, load car</td></tr>
+    <tr><td class="t-time">11:45am</td><td class="t-place">Devkund Waterfall</td><td class="t-note">6–7 km jungle trek · guide required</td></tr>
+    <tr><td class="t-time">4:00pm</td><td class="t-place">Tamhini Ghat Viewpoint</td><td class="t-note">6–8 waterfalls visible at once</td></tr>
+    <tr><td class="t-time">5:00pm</td><td class="t-place">Tamhini Ghat Waterfall</td><td class="t-note">Most powerful fall on the whole route</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">5:45pm</td><td class="t-place t-warn">Check in — Mulshi homestay</td><td class="t-warn">Must be before dark — no exceptions on ghat road</td></tr>
+  </table>
+  <div class="stay-wrap">
+    <div class="stay-lbl">🛏 Stay — Night 4</div>
+    <div class="stay-name">JV Cottages (or Mulshi-area homestay)</div>
+    <div class="stay-grid">
+      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Right at the end of Tamhini — no night driving on ghats</div></div>
+      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹2,500 – ₹3,000</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">Dinner included · 5am departure okay</div></div>
+      <div class="stay-item"><div class="si-l">Book by</div><div class="si-v">2 weeks before departure</div></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-green" href="https://www.jvcottages.com" target="_blank">jvcottages.com</a>
+      <a class="btn btn-clay" href="https://www.airbnb.co.in" target="_blank">Search Airbnb</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DAY 4 ═══════════════ -->
+<div id="day4" class="day-panel">
+  <div class="day-hdr">
+    <div class="day-num">4</div>
+    <div class="day-info">
+      <h2>Mahabaleshwar</h2>
+      <div class="sub">Mulshi → Sunrise Point (55 km) → Mahabaleshwar town</div>
+    </div>
+    <div class="day-tag">Full Day, One Base</div>
+  </div>
+  <div class="flow-box">
+    <strong>Plan:</strong> Leave Mulshi before sunrise — everything in the car, not coming back. Catch sunrise first, then check into MTDC and drop all bags before any sightseeing. Resort is base for the whole day.
+  </div>
+  <table class="sched">
+    <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+    <tr><td class="t-time">7:15am</td><td class="t-place">Sunrise Point</td><td class="t-note">Above the clouds · carry a fleece, it's ~15°C</td></tr>
+    <tr><td class="t-time">8:30am</td><td class="t-place">MTDC Resort — check in</td><td class="t-note">Drop every bag before sightseeing starts</td></tr>
+    <tr><td class="t-time">10:00am</td><td class="t-place">Arthur's Seat</td><td class="t-note">1,300 ft cliff · often inside the clouds</td></tr>
+    <tr><td class="t-time">11:15am</td><td class="t-place">Elephant's Head Point</td><td class="t-note">Easy 15-minute walk</td></tr>
+    <tr><td class="t-time">12:00pm</td><td class="t-place">Lingmala Falls</td><td class="t-note">600 ft — tallest fall of the whole trip</td></tr>
+    <tr><td class="t-time">1:30pm</td><td class="t-place">Mapro Garden</td><td class="t-note">Lunch · strawberry everything</td></tr>
+    <tr><td class="t-time">3:30pm</td><td class="t-place">Venna Lake + Chinaman's Falls</td><td class="t-note">Boating, then short forest walk</td></tr>
+    <tr><td class="t-time">5:00pm</td><td class="t-place">Lodwick Point</td><td class="t-note">Strawberry cream seller at the top — worth it</td></tr>
+    <tr><td class="t-time">6:30pm</td><td class="t-place">Mahabaleshwar Bazaar</td><td class="t-note">Honey, jam, mulberry wine</td></tr>
+  </table>
+  <div class="stay-wrap">
+    <div class="stay-lbl">🛏 Stay — Night 5</div>
+    <div class="stay-name">MTDC Resort, Mahabaleshwar</div>
+    <div class="stay-grid">
+      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Central, reliable, 12 km from Panchgani start</div></div>
+      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹3,000 – ₹4,500</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">2 rooms, early checkout tomorrow</div></div>
+      <div class="stay-item warn-item"><div class="si-l">⚠ Book FIRST</div><div class="si-v">Sells out fastest of all 4 stays in July</div></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-green" href="https://www.mtdc.co" target="_blank">Book at mtdc.co (direct)</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DAY 5 ═══════════════ -->
+<div id="day5" class="day-panel">
+  <div class="day-hdr">
+    <div class="day-num">5</div>
+    <div class="day-info">
+      <h2>Panchgani → Pune</h2>
+      <div class="sub">Mahabaleshwar → Panchgani (12 km) → Pune Station (115 km)</div>
+    </div>
+    <div class="day-tag">Return Day</div>
+  </div>
+  <div class="flow-box">
+    <strong>Plan:</strong> Checkout, everything in the car — no stay tonight. Sightsee until midday, then drive straight to Pune, return the car, and board the train.
+  </div>
+  <div class="warn-box">
+    <span class="wi">🚨</span>
+    <span><strong>Hard Deadline:</strong> Leave Panchgani by <strong>1:30pm latest.</strong> Pune drive + car return = ~3 hours. The train won't wait.</span>
+  </div>
+  <table class="sched">
+    <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
+    <tr><td class="t-time">8:00am</td><td class="t-place">Checkout MTDC</td><td class="t-note">All luggage in the car</td></tr>
+    <tr><td class="t-time">8:30am</td><td class="t-place">Table Land</td><td class="t-note">Asia's 2nd-longest plateau · wrapped in cloud in July</td></tr>
+    <tr><td class="t-time">10:30am</td><td class="t-place">Sydney Point</td><td class="t-note">Gorge fills completely with cloud this month</td></tr>
+    <tr><td class="t-time">11:30am</td><td class="t-place">Parsi Point</td><td class="t-note">Quieter, same dramatic view</td></tr>
+    <tr><td class="t-time">12:30pm</td><td class="t-place">Panchgani Bazaar — Lunch</td><td class="t-note">Last stop before the drive back</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">1:30pm</td><td class="t-place t-warn">⚠ DEPART for Pune</td><td class="t-warn">Latest possible time — do not delay</td></tr>
+    <tr><td class="t-time">4:30pm</td><td class="t-place">Return car — Pune Station</td><td class="t-note">SK Self Drive · full inspection together</td></tr>
+    <tr><td class="t-time">6:00pm</td><td class="t-place">Board return train 🎉</td><td class="t-note">Trip complete</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════ BOOKINGS ═══════════════ -->
+<div id="bookings" class="day-panel">
+  <div class="book-section">
+    <h2>📋 All Bookings — In Order of Priority</h2>
+    <table class="book-table">
+      <tr><th>When to Book</th><th>What</th><th>Where</th><th>Confirm</th></tr>
+      <tr>
+        <td><span class="pri pri-now">Book Today</span></td>
+        <td>MTDC Resort, Mahabaleshwar (Night 4)</td>
+        <td><a href="https://www.mtdc.co" target="_blank">mtdc.co</a></td>
+        <td>2 rooms, early checkout</td>
+      </tr>
+      <tr>
+        <td><span class="pri pri-now">This Week</span></td>
+        <td>The Chavni, Lohagad base (Night 3)</td>
+        <td><a href="tel:+917721059999">+91 77210 59999</a></td>
+        <td>6am breakfast + luggage hold during trek</td>
+      </tr>
+      <tr>
+        <td><span class="pri pri-week">This Week</span></td>
+        <td>3-BHK Villa, Lonavala (Nights 1 & 2)</td>
+        <td><a href="https://www.airbnb.co.in" target="_blank">Airbnb</a> / <a href="https://www.stayvista.com" target="_blank">StayVista</a></td>
+        <td>Early check-in 8:30am, kitchen, parking</td>
+      </tr>
+      <tr>
+        <td><span class="pri pri-soon">2 Weeks Out</span></td>
+        <td>JV Cottages, Mulshi (Night 4)</td>
+        <td><a href="https://www.jvcottages.com" target="_blank">jvcottages.com</a></td>
+        <td>Dinner included, 5am departure okay</td>
+      </tr>
+      <tr>
+        <td><span class="pri pri-soon">2–3 Weeks Out</span></td>
+        <td>Rental Car — Pune pickup & return</td>
+        <td><a href="tel:+919175210163">SK Self Drive · +91 91752 10163</a></td>
+        <td>Photo every scratch on pickup</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════ TIPS ═══════════════ -->
+<div id="tips" class="day-panel">
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h3>🎒 What to Pack</h3>
+      <ul>
+        <li>Waterproof trekking shoes</li>
+        <li>Rain poncho (not umbrella)</li>
+        <li>Fleece jacket (Mahabaleshwar ~15°C)</li>
+        <li>Quick-dry clothes × 3 sets</li>
+        <li>Dry bags for phones & docs</li>
+        <li>First aid kit + ORS sachets</li>
+        <li>Torchlight for early starts</li>
+        <li>Snacks for long drives</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>⚠️ Safety Rules</h3>
+      <ul>
+        <li>Check IMD alert before every trek</li>
+        <li>Red/Orange alert = skip exposed ridges</li>
+        <li>No night driving on ghat roads</li>
+        <li>Lohagad Vinchu Kata only if rock is dry</li>
+        <li>Devkund requires a local guide</li>
+        <li>Bhushi Dam steps are very slippery</li>
+        <li>Don't swim in monsoon waterfalls</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>🚗 Car Tips</h3>
+      <ul>
+        <li>Photograph all scratches on pickup</li>
+        <li>Full tank before ghat roads</li>
+        <li>4-seater + luggage car minimum</li>
+        <li>Avoid night drives, esp. Tamhini Ghat</li>
+        <li>Keep a spare tyre & jack</li>
+        <li>Offline Google Maps for all stops</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>💡 Local Tips</h3>
+      <ul>
+        <li>Chikki: buy from factory outlets, not stalls</li>
+        <li>Mapro Garden: arrive before 2pm</li>
+        <li>Matheran: no vehicles past Dasturi Naka</li>
+        <li>Strawberry cream at Lodwick Point</li>
+        <li>Mulberry wine at Mahabaleshwar Bazaar</li>
+        <li>Devkund guide fee: ₹300–500</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+function show(id, el){
+  document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
