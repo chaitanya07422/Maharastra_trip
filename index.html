@@ -34,11 +34,37 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
 .route-flow{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:12px;}
 .route-stop{background:#e8f5e8;color:#1b3a20;padding:4px 10px;border-radius:20px;font-weight:600;}
 .route-stop.opt{background:#fff8e8;border:1px dashed #c0901a;color:#5a4a1a;}
+.route-stop.key{background:#eef4ff;border:1px solid #2060a0;color:#1a3a6a;}
 .route-arrow{color:#5a7a5a;font-size:11px;}
 .budget-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
 .budget-pill{background:#fff8e8;border:1px solid #e8d898;border-radius:8px;padding:8px 12px;flex:1;min-width:140px;}
 .budget-pill .bl{font-size:10px;color:#8a7a3a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
 .budget-pill .bv{font-size:14px;font-weight:700;color:#5a4a1a;}
+
+/* ── DIRECTION MAP ── */
+.dir-map{background:#f8fcf8;border:1px solid #d4e8d4;border-radius:10px;padding:14px 12px;margin-top:12px;}
+.dir-grid{display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto auto;gap:8px;max-width:500px;margin:0 auto;align-items:center;}
+.dir-n,.dir-s{grid-column:1/4;}
+.dir-w{grid-column:1;grid-row:2;justify-self:end;}
+.dir-c{grid-column:2;grid-row:2;}
+.dir-e{grid-column:3;grid-row:2;justify-self:start;}
+.dir-box{padding:10px 12px;border-radius:10px;font-size:11.5px;line-height:1.45;text-align:center;}
+.dir-box .dir-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;opacity:.85;}
+.dir-box strong{font-size:12px;}
+.dir-note{display:block;font-size:10px;margin-top:3px;opacity:.8;}
+.dir-pune{background:#2d6a35;color:#fff;font-weight:700;font-size:13px;padding:16px;border-radius:50%;width:58px;height:58px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(45,106,53,.25);}
+.dir-north{background:#eef4ff;border:1px solid #b8cce8;color:#1a3a6a;}
+.dir-east{background:#e8f5e8;border:1px solid #a8d0a8;color:#1b3a20;}
+.dir-south{background:#fff8e8;border:1px solid #e8d898;color:#5a4a1a;}
+.dir-west{background:#f5f0e8;border:1px solid #d8d0c0;color:#4a4030;}
+.dir-foot{text-align:center;font-size:11px;color:#5a7a5a;margin-top:12px;line-height:1.5;}
+.dir-route{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;margin-top:14px;padding-top:12px;border-top:1px dashed #d4e8d4;}
+.dr-step{background:#e8f5e8;color:#1b3a20;padding:5px 10px;border-radius:16px;font-size:10.5px;font-weight:700;}
+.dr-step.n{background:#eef4ff;color:#1a3a6a;}
+.dr-step.e{background:#e8f5e8;}
+.dr-step.s{background:#fff8e8;color:#5a4a1a;}
+.dr-step.p{background:#2d6a35;color:#fff;}
+.dr-arr{color:#8a9a8a;font-size:11px;font-weight:700;}
 
 /* ── DAY PANEL ── */
 .day-panel{display:none;}
@@ -129,6 +155,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
   .tips-grid{grid-template-columns:1fr;}
   .stat{padding:8px 12px;}
   .hdr h1{font-size:18px;}
+  .dir-grid{grid-template-columns:1fr;grid-template-rows:auto;}
+  .dir-n,.dir-s,.dir-w,.dir-c,.dir-e{grid-column:1;grid-row:auto;justify-self:stretch;}
+  .dir-c{display:flex;justify-content:center;margin:4px 0;}
+  .dir-w .dir-box,.dir-e .dir-box{text-align:center;}
 }
 </style>
 </head>
@@ -141,7 +171,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <div class="stat"><div class="n">5</div><div class="l">Days</div></div>
     <div class="stat"><div class="n">4</div><div class="l">Nights</div></div>
     <div class="stat"><div class="n">4</div><div class="l">Stays</div></div>
-    <div class="stat"><div class="n">~570</div><div class="l">km</div></div>
+    <div class="stat"><div class="n">~680</div><div class="l">km</div></div>
     <div class="stat"><div class="n">7</div><div class="l">People</div></div>
   </div>
 </div>
@@ -149,8 +179,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
 <div class="tabs">
   <div class="tab active" onclick="show('overview',this)">Overview</div>
   <div class="tab" onclick="show('day1',this)">Day 1 · Lonavala</div>
-  <div class="tab" onclick="show('day2',this)">Day 2 · Matheran</div>
-  <div class="tab" onclick="show('day3',this)">Day 3 · Lohagad</div>
+  <div class="tab" onclick="show('day2',this)">Day 2 · Lohagad + Matheran</div>
+  <div class="tab" onclick="show('day3',this)">Day 3 · Kalu + Tamhini</div>
   <div class="tab" onclick="show('day4',this)">Day 4 · Mahabaleshwar</div>
   <div class="tab" onclick="show('day5',this)">Day 5 · Panchgani</div>
   <div class="tab" onclick="show('bookings',this)">All Bookings</div>
@@ -168,20 +198,69 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <span class="route-stop">Lonavala</span><span class="route-arrow">→</span>
       <span class="route-stop">Matheran</span><span class="route-arrow">→</span>
       <span class="route-stop">Lohagad</span><span class="route-arrow">→</span>
-      <span class="route-stop">Devkund</span><span class="route-arrow">→</span>
-      <span class="route-stop opt">Kalu ★</span><span class="route-arrow">→</span>
+      <span class="route-stop key">Kalu Waterfall</span><span class="route-arrow">→</span>
       <span class="route-stop">Tamhini Ghat</span><span class="route-arrow">→</span>
       <span class="route-stop">Mahabaleshwar</span><span class="route-arrow">→</span>
       <span class="route-stop">Panchgani</span><span class="route-arrow">→</span>
       <span class="route-stop">Pune</span>
     </div>
     <div class="budget-row" style="margin-top:14px;">
-      <div class="budget-pill"><div class="bl">Night 1 & 2 Stay</div><div class="bv">₹4,500–6,000/night</div></div>
-      <div class="budget-pill"><div class="bl">Night 3 Stay</div><div class="bv">₹5,000–8,000/night</div></div>
+      <div class="budget-pill"><div class="bl">Night 1 Stay</div><div class="bv">₹4,500–6,000/night</div></div>
+      <div class="budget-pill"><div class="bl">Night 3 Stay</div><div class="bv">₹2,500–4,000/night</div></div>
       <div class="budget-pill"><div class="bl">Night 4 Stay</div><div class="bv">₹2,500–3,000/night</div></div>
       <div class="budget-pill"><div class="bl">Night 5 Stay</div><div class="bv">₹3,000–4,500/night</div></div>
     </div>
-    <p style="font-size:11.5px;color:#5a7a5a;margin-top:10px;line-height:1.5;"><span style="color:#c0901a;font-weight:700;">★ Kalu Waterfall</span> — optional Day 3 swap instead of Devkund + Tamhini. Tallest fall in Malshej Ghat (1,200 ft). See Day 3 tab for Plan B.</p>
+    <p style="font-size:11.5px;color:#5a7a5a;margin-top:10px;line-height:1.5;"><strong style="color:#2060a0;">Kalu Waterfall</strong> is mandatory on Day 3 morning · <strong>Tamhini Ghat</strong> same afternoon · Devkund dropped to fit both.</p>
+  </div>
+
+  <div class="overview">
+    <h2>Directions from Pune</h2>
+    <div class="dir-map">
+      <div class="dir-grid">
+        <div class="dir-n">
+          <div class="dir-box dir-north">
+            <div class="dir-lbl">↑ North · Malshej Ghat</div>
+            <strong>Kalu Waterfall</strong>
+            <span class="dir-note">Day 2 PM — stay at MTDC Malshej</span>
+            <span class="dir-note">Day 3 AM — mandatory trek from Sawarne</span>
+          </div>
+        </div>
+        <div class="dir-w">
+          <div class="dir-box dir-west">
+            <div class="dir-lbl">← West</div>
+            <strong>Lonavala · Lohagad · Matheran</strong>
+            <span class="dir-note">Day 1 — Lonavala base</span>
+            <span class="dir-note">Day 2 AM — fort + hill station</span>
+          </div>
+        </div>
+        <div class="dir-c"><div class="dir-pune">PUNE</div></div>
+        <div class="dir-e">
+          <div class="dir-box dir-east">
+            <div class="dir-lbl">East →</div>
+            <strong>Tamhini Ghat · Mulshi</strong>
+            <span class="dir-note">Day 3 PM — mandatory ghat drive</span>
+            <span class="dir-note">After Kalu · reach before 6pm</span>
+          </div>
+        </div>
+        <div class="dir-s">
+          <div class="dir-box dir-south">
+            <div class="dir-lbl">↓ South</div>
+            <strong>Wai → Mahabaleshwar → Panchgani</strong>
+            <span class="dir-note">Day 4 — Mahabaleshwar</span>
+            <span class="dir-note">Day 5 — Panchgani → Pune</span>
+          </div>
+        </div>
+      </div>
+      <div class="dir-route">
+        <span class="dr-step p">Pune</span><span class="dr-arr">→</span>
+        <span class="dr-step">① West</span><span class="dr-arr">→</span>
+        <span class="dr-step n">② North</span><span class="dr-arr">→</span>
+        <span class="dr-step e">③ East</span><span class="dr-arr">→</span>
+        <span class="dr-step s">④ South</span><span class="dr-arr">→</span>
+        <span class="dr-step p">Pune</span>
+      </div>
+      <p class="dir-foot"><strong>Day 2 evening:</strong> drive West → North (Lonavala to Malshej) · <strong>Day 3:</strong> Kalu AM then Tamhini PM (North → East via Pune) · Devkund skipped</p>
+    </div>
   </div>
 
   <table class="sched" style="border-radius:12px;border:1px solid #d4e8d4;overflow:hidden;">
@@ -190,18 +269,18 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <td class="t-time">Day 1</td>
       <td class="t-place">Lonavala</td>
       <td class="t-note">Bhushi Dam, Kune Falls, Lion's Point</td>
-      <td class="t-note">3-BHK Villa (2 nights)</td>
+      <td class="t-note">3-BHK Villa (1 night)</td>
     </tr>
     <tr>
       <td class="t-time">Day 2</td>
       <td class="t-place">Matheran</td>
-      <td class="t-note">Panorama Point, Charlotte Lake</td>
-      <td class="t-note">The Chavni, Lohagad base</td>
+      <td class="t-note">Lohagad fort (AM) + Matheran</td>
+      <td class="t-note">MTDC Malshej Ghat</td>
     </tr>
     <tr>
       <td class="t-time">Day 3</td>
-      <td class="t-place">Lohagad + Tamhini</td>
-      <td class="t-note">Fort trek, Devkund Waterfall, Ghat drive · <span style="color:#2060a0;">or Kalu ★</span></td>
+      <td class="t-place">Kalu + Tamhini</td>
+      <td class="t-note">Kalu Waterfall trek (mandatory) + Tamhini Ghat drive</td>
       <td class="t-note">JV Cottages, Mulshi</td>
     </tr>
     <tr>
@@ -220,8 +299,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
 
   <br>
   <div class="btn-row">
-    <a class="btn btn-green" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Devkund+Waterfall/Tamhini+Ghat/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Plan A — Full Route</a>
-    <a class="btn btn-blue" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Kalu+Waterfall+Sawarne+Malshej+Ghat/Mulshi/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Plan B — with Kalu Waterfall</a>
+    <a class="btn btn-green" href="https://www.google.com/maps/dir/Pune+Railway+Station/Lonavala/Matheran/Lohagad+Fort/Kalu+Waterfall+Sawarne+Malshej+Ghat/Tamhini+Ghat/Mulshi/Mahabaleshwar/Panchgani/Pune+Railway+Station" target="_blank">🗺 Open Full Route in Google Maps →</a>
   </div>
 </div>
 
@@ -236,12 +314,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <div class="day-tag">Arrival Day</div>
   </div>
   <div class="flow-box">
-    <strong>Plan:</strong> Pick up car at Pune Station at 6am → drive to villa, drop all bags → use villa as base all day → return after each spot → sleep here 2 nights.
+    <strong>Plan:</strong> Pick up car at Pune Station at 6am → drive to villa, drop all bags → use villa as base all day → sleep here Night 1 only (checkout tomorrow afternoon).
   </div>
   <table class="sched">
     <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
     <tr><td class="t-time">6:00am</td><td class="t-place">Pune Station — pick up car</td><td class="t-note">SK Self Drive · +91 91752 10163 · open 6am</td></tr>
-    <tr><td class="t-time">8:30am</td><td class="t-place">Villa — drop all bags</td><td class="t-note">Base for tonight & tomorrow night</td></tr>
+    <tr><td class="t-time">8:30am</td><td class="t-place">Villa — drop all bags</td><td class="t-note">Base for Day 1 & Lohagad tomorrow morning</td></tr>
     <tr><td class="t-time">9:30am</td><td class="t-place">Lonavala Lake Waterfall</td><td class="t-note">40ft cliff fall — stay back from edge</td></tr>
     <tr><td class="t-time">10:30am</td><td class="t-place">Lion's Point</td><td class="t-note">Valley + Tiger Falls view from above</td></tr>
     <tr><td class="t-time">12:00pm</td><td class="t-place">Kune Falls</td><td class="t-note">200m, 3-tiered — tallest nearby</td></tr>
@@ -250,13 +328,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <tr><td class="t-time">Evening</td><td class="t-place">Back to villa</td><td class="t-note">Dinner in, early sleep</td></tr>
   </table>
   <div class="stay-wrap">
-    <div class="stay-lbl">🛏 Stay — Night 1 & 2</div>
+    <div class="stay-lbl">🛏 Stay — Night 1</div>
     <div class="stay-name">3-BHK Private Villa, near Lonavala Station</div>
     <div class="stay-grid">
       <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Every Day 1 spot within 5 km — perfect base</div></div>
       <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹4,500 – ₹6,000</div></div>
       <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">Early check-in (8:30am), kitchen, car parking</div></div>
-      <div class="stay-item"><div class="si-l">Nights here</div><div class="si-v">Night 1 + Night 2 (no relocation)</div></div>
+      <div class="stay-item"><div class="si-l">Nights here</div><div class="si-v">Night 1 only (checkout 14 Jul 3:30pm)</div></div>
     </div>
     <div class="btn-row">
       <a class="btn btn-green" href="https://www.airbnb.co.in" target="_blank">Search Airbnb</a>
@@ -271,35 +349,37 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <div class="day-num">2</div>
     <div class="day-info">
       <h2>Matheran</h2>
-      <div class="sub">Mon 14 Jul · Lonavala → Matheran (60 km) → Lohagad base (50 km)</div>
+      <div class="sub">Mon 14 Jul · Lohagad fort (AM) → Matheran → Malshej Ghat (PM)</div>
     </div>
-    <div class="day-tag">Day Trip + Relocate</div>
+    <div class="day-tag">Long Relocate Day</div>
   </div>
   <div class="flow-box">
-    <strong>Plan:</strong> Leave villa with daypacks only (Matheran is walk-only after the car park). After sightseeing, swing back to collect main luggage — then drive straight to Lohagad base. <strong>Do NOT return to Lonavala villa tonight.</strong>
+    <strong>Plan:</strong> Early Lohagad fort trek from villa — back by 9:30am. Then Matheran with daypacks only. Collect all bags at villa at 3:30pm → drive north to Malshej Ghat for tomorrow's Kalu trek. <strong>Do NOT return to Lonavala villa tonight.</strong>
   </div>
   <table class="sched">
     <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
-    <tr><td class="t-time">8:00am</td><td class="t-place">Leave villa — daypacks only</td><td class="t-note">Main bags stay at villa for now</td></tr>
-    <tr><td class="t-time">10:00am</td><td class="t-place">Dasturi Naka — park here</td><td class="t-note">No vehicles allowed past this point</td></tr>
-    <tr><td class="t-time">10:45am</td><td class="t-place">Panorama Point</td><td class="t-note">30–40 min walk · best 360° view on the hill</td></tr>
-    <tr><td class="t-time">12:00pm</td><td class="t-place">Louisa Point</td><td class="t-note">Waterfall visible from here in July</td></tr>
-    <tr><td class="t-time">12:45pm</td><td class="t-place">Charlotte Lake</td><td class="t-note">Forested, quiet — path is slick when wet</td></tr>
-    <tr><td class="t-time">2:15pm</td><td class="t-place">Matheran Bazaar</td><td class="t-note">Lunch + leather goods, chikki</td></tr>
-    <tr class="t-key"><td class="t-time t-warn">4:00pm</td><td class="t-place t-warn">Collect bags — Lonavala villa</td><td class="t-warn">Quick stop, load car, don't stay</td></tr>
-    <tr><td class="t-time">6:00pm</td><td class="t-place">Check in — The Chavni</td><td class="t-note">Confirm 6am breakfast, sleep early</td></tr>
+    <tr><td class="t-time">6:00am</td><td class="t-place">Lohagad Fort Trek</td><td class="t-note">30 min drive from villa · bags stay at villa</td></tr>
+    <tr><td class="t-time">9:30am</td><td class="t-place">Back to villa — quick change</td><td class="t-note">Switch to daypacks for Matheran</td></tr>
+    <tr><td class="t-time">10:30am</td><td class="t-place">Dasturi Naka — park here</td><td class="t-note">No vehicles allowed past this point</td></tr>
+    <tr><td class="t-time">11:15am</td><td class="t-place">Panorama Point</td><td class="t-note">30–40 min walk · best 360° view on the hill</td></tr>
+    <tr><td class="t-time">12:30pm</td><td class="t-place">Charlotte Lake</td><td class="t-note">Forested path — slick when wet</td></tr>
+    <tr><td class="t-time">1:45pm</td><td class="t-place">Matheran Bazaar — Lunch</td><td class="t-note">Keep it short — long drive ahead</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">3:30pm</td><td class="t-place t-warn">Collect all bags — Lonavala villa</td><td class="t-warn">Load car fully — not coming back</td></tr>
+    <tr><td class="t-time">4:00pm</td><td class="t-place">Drive to Malshej Ghat</td><td class="t-note">Via Pune · NH60 · Alephata · ~4 hr</td></tr>
+    <tr><td class="t-time">8:00pm</td><td class="t-place">Check in — MTDC Malshej Ghat</td><td class="t-note">Near Sawarne · early sleep for Kalu trek</td></tr>
   </table>
   <div class="stay-wrap">
     <div class="stay-lbl">🛏 Stay — Night 3</div>
-    <div class="stay-name">The Chavni — at the base of Lohagad Fort</div>
+    <div class="stay-name">MTDC Resort, Malshej Ghat (near Sawarne)</div>
     <div class="stay-grid">
-      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Trek starts 7am — 10 min walk to trailhead vs 45 min drive</div></div>
-      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹5,000 – ₹8,000</div></div>
-      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">6am breakfast + hold luggage during morning trek</div></div>
-      <div class="stay-item warn-item"><div class="si-l">⚠ Book soon</div><div class="si-v">Call directly — not always on OTAs</div></div>
+      <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">15 min from Kalu trek base — no 4am start needed</div></div>
+      <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹2,500 – ₹4,000</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">Early breakfast 6am · parking for SUV</div></div>
+      <div class="stay-item warn-item"><div class="si-l">⚠ Book early</div><div class="si-v">Monsoon weekends fill fast at Malshej</div></div>
     </div>
     <div class="btn-row">
-      <a class="btn btn-green" href="tel:+917721059999">📞 Call +91 77210 59999</a>
+      <a class="btn btn-green" href="https://www.mtdc.co" target="_blank">Book at mtdc.co</a>
+      <a class="btn btn-blue" href="https://www.google.com/maps/search/MTDC+Malshej+Ghat" target="_blank">📍 MTDC Malshej on Maps</a>
     </div>
   </div>
 </div>
@@ -309,27 +389,28 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
   <div class="day-hdr">
     <div class="day-num">3</div>
     <div class="day-info">
-      <h2>Lohagad Fort + Tamhini Ghat</h2>
-      <div class="sub">Tue 15 Jul · Lohagad → Devkund (50 km) → Tamhini → Mulshi</div>
+      <h2>Kalu Waterfall + Tamhini Ghat</h2>
+      <div class="sub">Tue 15 Jul · Sawarne → Kalu trek → Tamhini drive → Mulshi</div>
     </div>
     <div class="day-tag">Longest Day</div>
   </div>
   <div class="flow-box">
-    <strong>Plan:</strong> Walk to fort with just water & rain gear — bags stay locked at The Chavni. Return, collect bags, then drive: Devkund → Tamhini Ghat → check in at Mulshi before dark.
+    <strong>Plan:</strong> Kalu Waterfall is <strong>mandatory</strong> — trek from Sawarne in the morning. Lunch, then drive south-east to Tamhini Ghat (also mandatory). Reach Mulshi before dark. Devkund is dropped — not enough time for Kalu + Devkund + Tamhini in one day.
   </div>
   <div class="warn-box">
     <span class="wi">⚠️</span>
-    <span><strong>Before leaving:</strong> Check IMD Maharashtra weather app. If Red or Orange alert → skip fort summit, go straight to Devkund.</span>
+    <span><strong>Before leaving:</strong> Check IMD Maharashtra app. Red/Orange alert → skip Kalu base trek, do Khireshwar top viewpoint only, then head to Tamhini.</span>
   </div>
   <table class="sched">
     <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
-    <tr><td class="t-time">6:30am</td><td class="t-place">Walk to Lohagad Fort</td><td class="t-note">10 min from homestay · bags stay behind</td></tr>
-    <tr><td class="t-time">7:00am</td><td class="t-place">Lohagad Fort Trek</td><td class="t-warn">Vinchu Kata ridge only if rock is fully dry</td></tr>
-    <tr><td class="t-time">9:45am</td><td class="t-place">Back to homestay</td><td class="t-note">Breakfast, collect bags, load car</td></tr>
-    <tr><td class="t-time">11:45am</td><td class="t-place">Devkund Waterfall</td><td class="t-note">6–7 km jungle trek · guide required</td></tr>
-    <tr><td class="t-time">4:00pm</td><td class="t-place">Tamhini Ghat Viewpoint</td><td class="t-note">6–8 waterfalls visible at once</td></tr>
-    <tr><td class="t-time">5:00pm</td><td class="t-place">Tamhini Ghat Waterfall</td><td class="t-note">Most powerful fall on the whole route</td></tr>
-    <tr class="t-key"><td class="t-time t-warn">5:45pm</td><td class="t-place t-warn">Check in — Mulshi homestay</td><td class="t-warn">Must be before dark — no exceptions on ghat road</td></tr>
+    <tr><td class="t-time">6:00am</td><td class="t-place">Checkout MTDC Malshej</td><td class="t-note">Breakfast · pack daypacks · leave main bags in car</td></tr>
+    <tr><td class="t-time">6:30am</td><td class="t-place">Sawarne village — park car</td><td class="t-note">10 min from MTDC · God's Valley trailhead</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">7:00am</td><td class="t-place t-warn">Kalu Waterfall trek</td><td class="t-warn">Mandatory · 2 km one-way · 1,200 ft · 5 tiers · hire local guide</td></tr>
+    <tr><td class="t-time">11:30am</td><td class="t-place">Back to Sawarne</td><td class="t-note">Change wet clothes · lunch packed or Junnar stop</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">12:30pm</td><td class="t-place t-warn">Depart for Tamhini Ghat</td><td class="t-warn">Must leave by 12:30 — ~4 hr drive via Pune</td></tr>
+    <tr><td class="t-time">4:30pm</td><td class="t-place">Tamhini Ghat Viewpoint</td><td class="t-note">Mandatory · 6–8 waterfalls visible from the road</td></tr>
+    <tr><td class="t-time">5:15pm</td><td class="t-place">Tamhini Ghat Waterfall</td><td class="t-note">Stop for photos — don't block the narrow road</td></tr>
+    <tr class="t-key"><td class="t-time t-warn">6:00pm</td><td class="t-place t-warn">Check in — JV Cottages, Mulshi</td><td class="t-warn">Before dark — no night driving on ghat roads</td></tr>
   </table>
   <div class="stay-wrap">
     <div class="stay-lbl">🛏 Stay — Night 4</div>
@@ -338,38 +419,19 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Right at the end of Tamhini — no night driving on ghats</div></div>
       <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹2,500 – ₹3,000</div></div>
       <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">Dinner included · 5am departure okay</div></div>
-      <div class="stay-item"><div class="si-l">Book by</div><div class="si-v">2 weeks before departure</div></div>
+      <div class="stay-item"><div class="si-l">Book by</div><div class="si-v">29 Jun 2026</div></div>
     </div>
     <div class="btn-row">
       <a class="btn btn-green" href="https://www.jvcottages.com" target="_blank">jvcottages.com</a>
-      <a class="btn btn-clay" href="https://www.airbnb.co.in" target="_blank">Search Airbnb</a>
+      <a class="btn btn-blue" href="https://www.google.com/maps/dir/Sawarne+Maharashtra/Tamhini+Ghat/JV+Cottages+Mulshi" target="_blank">🗺 Kalu → Tamhini → Mulshi</a>
+      <a class="btn btn-clay" href="https://www.google.com/maps/search/Sawarne+village+Kalu+waterfall" target="_blank">📍 Kalu base on Maps</a>
     </div>
   </div>
 
-  <div class="alt-box">
-    <span class="alt-tag">Optional Plan B</span>
-    <h3>🌊 Kalu Waterfall — God's Valley, Malshej Ghat</h3>
-    <p class="alt-desc">Maharashtra's tallest waterfall in the Malshej region — a <strong>1,200 ft (365 m), 5-tier cascade</strong> on the Kalu River from the Harishchandragad range. Best in monsoon (July). <strong>Replaces Devkund + Tamhini</strong> — not both. Major detour northeast (~130 km from Lohagad, ~3.5 hr drive). Only pick this if the group skips Lohagad fort and leaves very early.</p>
-    <div class="alt-facts">
-      <span class="alt-fact"><strong>Base village</strong> Sawarne</span>
-      <span class="alt-fact"><strong>Trek</strong> 2 km one-way · moderate</span>
-      <span class="alt-fact"><strong>Time needed</strong> 3–4 hrs on trail</span>
-      <span class="alt-fact"><strong>Also called</strong> God's Valley</span>
-      <span class="alt-fact"><strong>Top view alt.</strong> Khireshwar</span>
-    </div>
-    <table class="sched alt-sched">
-      <tr><th width="70">Time</th><th>Activity</th><th>Notes</th></tr>
-      <tr><td class="t-time">5:00am</td><td class="t-place">Checkout — The Chavni</td><td class="t-note">Skip Lohagad fort · breakfast packed or on road</td></tr>
-      <tr><td class="t-time">8:30am</td><td class="t-place">Sawarne village — park car</td><td class="t-note">Via NH60 · Alephata · Junnar · Malshej Ghat</td></tr>
-      <tr><td class="t-time">9:00am</td><td class="t-place">Kalu Waterfall trek</td><td class="t-note">Jungle trail · stream crossings · hire local guide</td></tr>
-      <tr><td class="t-time">1:30pm</td><td class="t-place">Back to Sawarne</td><td class="t-note">Lunch in Junnar or packed · don't swim at base</td></tr>
-      <tr class="t-key"><td class="t-time t-warn">2:00pm</td><td class="t-place t-warn">Drive toward Mulshi</td><td class="t-warn">~4–5 hr via Pune — tight for ghat roads before dark</td></tr>
-      <tr><td class="t-time">6:30pm</td><td class="t-place">Check in — JV Cottages, Mulshi</td><td class="t-warn">Latest safe arrival — leave Sawarne by 2pm sharp</td></tr>
-    </table>
-    <div class="btn-row" style="margin-top:12px;">
-      <a class="btn btn-blue" href="https://www.google.com/maps/dir/Lohagad+Fort/Sawarne+Maharashtra/JV+Cottages+Mulshi" target="_blank">🗺 Kalu detour route in Maps</a>
-      <a class="btn btn-green" href="https://www.google.com/maps/search/Sawarne+village+Kalu+waterfall+Malshej+Ghat" target="_blank">📍 Sawarne on Maps</a>
-    </div>
+  <div class="overview" style="margin-top:16px;">
+    <h2>About Kalu Waterfall</h2>
+    <p style="font-size:12.5px;color:#3a5a3a;line-height:1.55;">Tallest waterfall in Malshej Ghat — <strong>1,200 ft (365 m)</strong> across 5 tiers on the Kalu River from Harishchandragad. Base village: <strong>Sawarne</strong>. Also called God's Valley. July is peak monsoon flow.</p>
+    <p style="font-size:11.5px;color:#7a3a1a;margin-top:8px;line-height:1.5;"><strong>Dropped to fit schedule:</strong> Devkund Waterfall (would need an extra half-day).</p>
   </div>
 </div>
 
@@ -404,7 +466,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
     <div class="stay-grid">
       <div class="stay-item"><div class="si-l">Why this one</div><div class="si-v">Central, reliable, 12 km from Panchgani start</div></div>
       <div class="stay-item"><div class="si-l">Cost per night</div><div class="si-v">₹3,000 – ₹4,500</div></div>
-      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">2 rooms, early checkout tomorrow</div></div>
+      <div class="stay-item"><div class="si-l">Must confirm</div><div class="si-v">3 rooms, early checkout tomorrow</div></div>
       <div class="stay-item warn-item"><div class="si-l">⚠ Book FIRST</div><div class="si-v">Sells out fastest of all 4 stays in July</div></div>
     </div>
     <div class="btn-row">
@@ -462,24 +524,24 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <tr>
         <td><span class="pri pri-soon">2 Weeks Out</span></td>
         <td class="t-date">29 Jun 2026</td>
+        <td>MTDC Resort, Malshej Ghat</td>
+        <td class="t-date">Check-in 14 Jul (8pm)<br>Checkout 15 Jul (6am)</td>
+        <td><a href="https://www.mtdc.co" target="_blank">mtdc.co</a></td>
+        <td>Near Kalu trek · early breakfast · parking</td>
+      </tr>
+      <tr>
+        <td><span class="pri pri-soon">2 Weeks Out</span></td>
+        <td class="t-date">29 Jun 2026</td>
         <td>JV Cottages, Mulshi</td>
-        <td class="t-date">Check-in 15 Jul (5:45pm)<br>Checkout 16 Jul (5am)</td>
+        <td class="t-date">Check-in 15 Jul (6pm)<br>Checkout 16 Jul (5am)</td>
         <td><a href="https://www.jvcottages.com" target="_blank">jvcottages.com</a></td>
         <td>Dinner included, 5am departure okay</td>
       </tr>
       <tr>
         <td><span class="pri pri-week">1 Week Out</span></td>
         <td class="t-date">6 Jul 2026</td>
-        <td>The Chavni, Lohagad base</td>
-        <td class="t-date">Check-in 14 Jul (6pm)<br>Checkout 15 Jul</td>
-        <td><a href="tel:+917721059999">+91 77210 59999</a></td>
-        <td>6am breakfast + luggage hold during trek</td>
-      </tr>
-      <tr>
-        <td><span class="pri pri-week">1 Week Out</span></td>
-        <td class="t-date">6 Jul 2026</td>
         <td>3-BHK Villa, Lonavala</td>
-        <td class="t-date">Check-in 13 Jul (8:30am)<br>Checkout 14 Jul (4pm)</td>
+        <td class="t-date">Check-in 13 Jul (8:30am)<br>Checkout 14 Jul (3:30pm)</td>
         <td><a href="https://www.airbnb.co.in" target="_blank">Airbnb</a> / <a href="https://www.stayvista.com" target="_blank">StayVista</a></td>
         <td>Early check-in, kitchen, parking</td>
       </tr>
@@ -504,7 +566,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <h4>Daypack (10–15L) — carry on treks</h4>
       <ul>
         <li><span class="must">Must have rain cover</span> — monsoon downpours soak packs fast</li>
-        <li>One per person for Matheran, Lohagad, Devkund & Kalu treks</li>
+        <li>One per person for Matheran, Lohagad & Kalu treks</li>
         <li>Pack only: water, snacks, rain gear, phone, small first-aid</li>
         <li>Dry bag or ziplock inside for phone & wallet</li>
       </ul>
@@ -516,7 +578,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       </ul>
       <h4>Optional but useful</h4>
       <ul>
-        <li>Trekking poles — slippery Lohagad descent & Devkund trail</li>
+        <li>Trekking poles — slippery Lohagad descent & Kalu trail</li>
         <li>Small waist pouch for Matheran bazaar (no vehicles)</li>
       </ul>
     </div>
@@ -532,7 +594,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <h4>Clothing</h4>
       <ul>
         <li>Quick-dry synthetic tops & track pants × 3 sets — <span class="must">no cotton, no jeans</span></li>
-        <li>Full-sleeve shirt for Devkund forest trek (branches & leeches)</li>
+        <li>Full-sleeve shirt for Kalu forest trek (branches & leeches)</li>
         <li>Rain poncho, not umbrella — keeps both hands free on trails</li>
         <li>Fleece or light jacket (Mahabaleshwar drops to ~15°C)</li>
         <li>Microfiber towel — dries fast, packs small</li>
@@ -558,7 +620,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
       <h4>First aid & monsoon extras</h4>
       <ul>
         <li>Bandages, antiseptic wipes, paracetamol, blister plasters</li>
-        <li>Anti-leech: salt pouch or Odomos — Devkund jungle section</li>
+        <li>Anti-leech: salt pouch or Odomos — Kalu jungle section</li>
         <li>Mosquito repellent — forest trails & homestays</li>
         <li>Personal prescription medicines × full trip supply</li>
         <li>Hand sanitiser & basic toiletries</li>
@@ -578,8 +640,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
         <li>Red/Orange alert = skip exposed ridges & fort summits</li>
         <li>No night driving on ghat roads — especially Tamhini</li>
         <li>Lohagad Vinchu Kata ridge only if rock is fully dry</li>
-        <li>Devkund requires a local guide — don't enter jungle alone</li>
-        <li>Kalu Waterfall (Plan B): skip if Orange/Red alert · no swimming at base</li>
+        <li>Kalu Waterfall: mandatory Day 3 · local guide at Sawarne · no swimming at base</li>
+        <li>Leave Sawarne by 12:30pm latest to reach Tamhini before dark</li>
         <li>Bhushi Dam steps are very slippery — stay off edges</li>
         <li>Don't swim in monsoon waterfalls — currents are deadly</li>
         <li>Tell someone your ETA before each trek starts</li>
@@ -605,8 +667,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f4f0;color:#1a2a1a;fo
         <li>Matheran: no vehicles past Dasturi Naka — park & walk</li>
         <li>Strawberry cream at Lodwick Point — worth the stop</li>
         <li>Mulberry wine at Mahabaleshwar Bazaar</li>
-        <li>Devkund guide fee: ₹300–500 per group — hire at base village</li>
-        <li>Kalu Waterfall: base at Sawarne · local guide recommended · July peak flow</li>
+        <li>Kalu Waterfall: base at Sawarne · guide ₹300–500 · start trek before 8am</li>
         <li>Carry change for parking at Lonavala & Mahabaleshwar viewpoints</li>
       </ul>
     </div>
